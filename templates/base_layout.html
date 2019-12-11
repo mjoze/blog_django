@@ -1,0 +1,38 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>djangoApp</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <header class="wrapper">
+        <h1><a href="{% url 'home' %}"><img src="{% static 'pug.png' %}" alt="puglife" /></a></h1>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                <li>
+                    <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Wyloguj</button>
+                    </form>
+                </li>
+                <li><a href="{% url 'articles:create' %}" class="highlight">Nowy wpis</a></li>
+                {% else %}
+                <li><a href="{% url 'accounts:login' %}">Zaloguj się</a></li>
+                <li><a href="{% url 'accounts:signup' %}">Rejestracja</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="img"></div>
+    </header>
+    <div class="wrapper">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>
